@@ -37,3 +37,10 @@ INSERT INTO products (code, name, description, category_id, price, cost, stock, 
 ('ACO001', 'Arroz con Coco',       'Porción de arroz con coco titoté',                                       7,  4000,  1200, 80, 15, 'porción'),
 ('ACO002', 'Patacones',            'Porción de patacones (5 unid.)',                                         7,  4000,  1500, 70, 15, 'porción'),
 ('ACO003', 'Ensalada Fresca',      'Ensalada de tomate, cebolla y lechuga',                                  7,  3500,  1000, 50, 10, 'porción');
+
+INSERT INTO tables (label, capacity) VALUES
+('Mesa 1', 4),
+('Mesa 2', 4),
+('Mesa 3', 6),
+('Mesa 4', 2)
+ON CONFLICT DO NOTHING;

@@ -52,6 +52,17 @@ CREATE TABLE categories (
 );
 
 -- ----------------------------------------------------------------------------
+-- Tabla: tables
+-- ----------------------------------------------------------------------------
+CREATE TABLE tables (
+    id              SERIAL PRIMARY KEY,
+    label           VARCHAR(20) UNIQUE NOT NULL,
+    capacity        INTEGER NOT NULL DEFAULT 4,
+    is_occupied     BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ----------------------------------------------------------------------------
 --  Tabla: products
 -- ----------------------------------------------------------------------------
 CREATE TABLE products (
@@ -75,6 +86,40 @@ CREATE INDEX idx_products_active     ON products(is_active);
 CREATE INDEX idx_products_name       ON products(name);
 
 -- ----------------------------------------------------------------------------
+-- Tabla: orders
+-- ----------------------------------------------------------------------------
+CREATE TABLE orders (
+    id              SERIAL PRIMARY KEY,
+    order_number    VARCHAR(30) UNIQUE NOT NULL,
+    table_id        INTEGER NOT NULL REFERENCES tables(id),
+    user_id         INTEGER NOT NULL REFERENCES users(id),
+    subtotal        NUMERIC(12,2) NOT NULL DEFAULT 0,
+    total           NUMERIC(12,2) NOT NULL DEFAULT 0,
+    status          VARCHAR(20) NOT NULL DEFAULT 'pendiente',
+    notes           TEXT,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_orders_status ON orders(status);
+CREATE INDEX idx_orders_table  ON orders(table_id);
+
+-- ----------------------------------------------------------------------------
+-- Tabla: order_items
+-- ----------------------------------------------------------------------------
+CREATE TABLE order_items (
+    id              SERIAL PRIMARY KEY,
+    order_id        INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    product_id      INTEGER NOT NULL REFERENCES products(id),
+    product_name    VARCHAR(120) NOT NULL,
+    quantity        INTEGER NOT NULL,
+    unit_price      NUMERIC(12,2) NOT NULL,
+    subtotal        NUMERIC(12,2) NOT NULL,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_order_items_order ON order_items(order_id);
+
+-- ----------------------------------------------------------------------------
 --  Tabla: sales (encabezado)
 -- ----------------------------------------------------------------------------
 CREATE TABLE sales (
@@ -91,6 +136,7 @@ CREATE TABLE sales (
     change_given    NUMERIC(12, 2),
     status          sale_status    NOT NULL DEFAULT 'completada',
     notes           TEXT,
+    order_id        INTEGER REFERENCES orders(id),
     created_at      TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     voided_at       TIMESTAMP,
     voided_by       INTEGER REFERENCES users(id)
