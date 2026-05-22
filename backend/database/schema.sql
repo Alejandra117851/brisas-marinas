@@ -5,8 +5,14 @@
 -- ============================================================================
 
 -- Limpieza previa (orden inverso por FKs)
+-- Limpieza previa (orden inverso por FKs)
 DROP TABLE IF EXISTS sale_items CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
+
+DROP TABLE IF EXISTS order_items CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS tables CASCADE;
+
 DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
@@ -14,14 +20,6 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TYPE IF EXISTS user_role;
 DROP TYPE IF EXISTS payment_method;
 DROP TYPE IF EXISTS sale_status;
-
--- ----------------------------------------------------------------------------
---  Tipos enumerados
--- ----------------------------------------------------------------------------
-CREATE TYPE user_role       AS ENUM ('administrador', 'cajero', 'empleado');
-CREATE TYPE payment_method  AS ENUM ('efectivo', 'transferencia', 'tarjeta', 'nequi', 'daviplata');
-CREATE TYPE sale_status     AS ENUM ('completada', 'anulada');
-
 -- ----------------------------------------------------------------------------
 --  Tabla: users
 -- ----------------------------------------------------------------------------
