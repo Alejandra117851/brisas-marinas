@@ -46,5 +46,5 @@ INSERT INTO tables (label, capacity) VALUES
 ('Mesa 5', 4),
 ('Mesa 6', 4),
 ('Mesa 7', 4),
-('Mesa 8', 4);
+('Mesa 8', 4)
 ON CONFLICT DO NOTHING;
