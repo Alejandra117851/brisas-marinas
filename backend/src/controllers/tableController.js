@@ -7,7 +7,7 @@ exports.list = async (req, res, next) => {
             `SELECT t.*, o.id AS current_order_id, o.order_number
              FROM tables t
              LEFT JOIN orders o ON o.table_id = t.id AND o.status = 'pendiente'
-             ORDER BY t.number ASC`
+             ORDER BY t.label ASC`
         );
         res.json({ success: true, data: rows });
     } catch (err) {
