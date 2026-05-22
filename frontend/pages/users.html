@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios — Brisas Marinas</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main">
+            <div class="main-header">
+                <div>
+                    <h1>Usuarios</h1>
+                    <div class="main-header-sub">Gestión de cuentas y permisos</div>
+                </div>
+                <div>
+                    <button class="btn btn-accent" id="btn-new-user">+ Nuevo usuario</button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card mb-6">
+                <div class="form-row">
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="user-search">Buscar</label>
+                        <input class="form-input" type="text" id="user-search" placeholder="Usuario, nombre o correo…">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="role-filter">Rol</label>
+                        <select class="form-select" id="role-filter">
+                            <option value="">Todos</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="cajero">Cajero</option>
+                            <option value="empleado">Empleado</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="active-filter">Estado</label>
+                        <select class="form-select" id="active-filter">
+                            <option value="">Todos</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Inactivos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Creado</th>
+                            <th class="text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="6"><div class="empty-state">Cargando…</div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: crear / editar -->
+    <div class="modal-overlay" id="user-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="user-modal-title">Nuevo usuario</h3>
+                <button class="modal-close" onclick="closeModal('user-modal')">×</button>
+            </div>
+            <form id="user-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="form-username">Usuario *</label>
+                        <input class="form-input" type="text" id="form-username" required minlength="3" maxlength="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="form-full-name">Nombre completo *</label>
+                        <input class="form-input" type="text" id="form-full-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="form-role">Rol *</label>
+                        <select class="form-select" id="form-role" required>
+                            <option value="empleado">Empleado</option>
+                            <option value="cajero">Cajero</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                        <div class="form-hint">
+                            <strong>Administrador:</strong> acceso total. •
+                            <strong>Cajero:</strong> ventas + inventario (lectura). •
+                            <strong>Empleado:</strong> solo registrar ventas.
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="form-password-group">
+                        <label class="form-label" for="form-password">Contraseña *</label>
+                        <input class="form-input" type="password" id="form-password" minlength="6">
+                        <div class="form-hint">Mínimo 6 caracteres.</div>
+                    </div>
+
+                    <div class="form-group hidden" id="form-active-group">
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" id="form-active" checked>
+                            <span>Usuario activo (puede iniciar sesión)</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('user-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: reset password -->
+    <div class="modal-overlay" id="reset-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Restablecer contraseña</h3>
+                <button class="modal-close" onclick="closeModal('reset-modal')">×</button>
+            </div>
+            <form id="reset-form">
+                <div class="modal-body">
+                    <div class="text-sm text-soft mb-4">
+                        Usuario: <strong id="reset-user-name"></strong>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="reset-password">Nueva contraseña *</label>
+                        <input class="form-input" type="password" id="reset-password" minlength="6" required>
+                        <div class="form-hint">Mínimo 6 caracteres. El usuario deberá usar esta contraseña la próxima vez que inicie sesión.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('reset-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Restablecer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/users.js"></script>
+</body>
+</html>

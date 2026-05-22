@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes — Brisas Marinas</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main">
+            <div class="main-header">
+                <div>
+                    <h1>Reportes</h1>
+                    <div class="main-header-sub">Análisis de ventas y desempeño</div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card mb-6">
+                <div class="flex gap-3 mb-4" style="flex-wrap: wrap;">
+                    <button class="btn btn-outline btn-sm" data-preset="today">Hoy</button>
+                    <button class="btn btn-outline btn-sm" data-preset="week">Última semana</button>
+                    <button class="btn btn-outline btn-sm" data-preset="month">Último mes</button>
+                    <button class="btn btn-outline btn-sm" data-preset="quarter">Último trimestre</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="date-from">Desde</label>
+                        <input class="form-input" type="date" id="date-from">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="date-to">Hasta</label>
+                        <input class="form-input" type="date" id="date-to">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="form-label" style="visibility: hidden;">.</label>
+                        <button class="btn btn-primary btn-block" id="btn-apply-filter">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="stats-grid">
+                <div class="stat-card primary" id="kpi-revenue">
+                    <div class="stat-label">Ingresos totales</div>
+                    <div class="stat-value">—</div>
+                    <div class="stat-meta"></div>
+                </div>
+                <div class="stat-card success" id="kpi-sales">
+                    <div class="stat-label">Total de ventas</div>
+                    <div class="stat-value">—</div>
+                </div>
+                <div class="stat-card" id="kpi-ticket">
+                    <div class="stat-label">Ticket promedio</div>
+                    <div class="stat-value">—</div>
+                </div>
+            </div>
+
+            <!-- Gráfico principal -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3 class="card-title">Ingresos por día</h3>
+                </div>
+                <div style="height: 280px; position: relative;">
+                    <canvas id="sales-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráficos secundarios -->
+            <div class="two-col-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Productos más vendidos</h3>
+                    </div>
+                    <div style="height: 320px; position: relative;">
+                        <canvas id="top-products-chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Métodos de pago</h3>
+                    </div>
+                    <div style="height: 320px; position: relative;">
+                        <canvas id="payment-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-col-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ventas por categoría</h3>
+                    </div>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ventas por usuario</h3>
+                    </div>
+                    <div id="by-user-table"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ventas recientes</h3>
+                </div>
+                <div id="recent-sales-table"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/reports.js"></script>
+</body>
+</html>

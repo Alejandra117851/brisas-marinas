@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Brisas Marinas</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main">
+            <div class="main-header">
+                <div>
+                    <h1 id="greeting">Dashboard</h1>
+                    <div class="main-header-sub">Resumen general del restaurante</div>
+                </div>
+                <div class="flex gap-3">
+                    <a href="/pages/sales.html" class="btn btn-accent">+ Nueva venta</a>
+                </div>
+            </div>
+
+            <section id="admin-section">
+                <div class="stats-grid">
+                    <div class="stat-card primary" id="today-revenue">
+                        <div class="stat-label">Ventas hoy</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-meta"></div>
+                    </div>
+                    <div class="stat-card success" id="week-revenue">
+                        <div class="stat-label">Esta semana</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-meta"></div>
+                    </div>
+                    <div class="stat-card" id="month-revenue">
+                        <div class="stat-label">Este mes</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-meta"></div>
+                    </div>
+                    <div class="stat-card" id="average-ticket">
+                        <div class="stat-label">Ticket promedio</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-meta"></div>
+                    </div>
+                    <div class="stat-card" id="active-products">
+                        <div class="stat-label">Productos activos</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-meta"></div>
+                    </div>
+                    <div class="stat-card warning" id="low-stock">
+                        <div class="stat-label">Bajo stock</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-meta"></div>
+                    </div>
+                </div>
+
+                <div class="card mb-6">
+                    <div class="card-header">
+                        <h3 class="card-title">Ventas de los últimos 14 días</h3>
+                    </div>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="sales-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="two-col-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Productos más vendidos</h3>
+                            <a href="/pages/reports.html" class="text-sm text-deep">Ver más →</a>
+                        </div>
+                        <div id="top-products-list">
+                            <div class="empty-state">Cargando…</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Productos con bajo stock</h3>
+                            <a href="/pages/inventory.html" class="text-sm text-deep">Gestionar →</a>
+                        </div>
+                        <div id="low-stock-list">
+                            <div class="empty-state">Cargando…</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="basic-section" class="hidden">
+                <div class="card">
+                    <h3 class="card-title">Accesos rápidos</h3>
+                    <div class="flex gap-4 mt-4" style="flex-wrap: wrap;">
+                        <a href="/pages/sales.html" class="btn btn-primary btn-lg">🧾 Registrar venta</a>
+                        <a href="/pages/inventory.html" class="btn btn-outline btn-lg">📦 Consultar inventario</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas — Brisas Marinas</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/pos.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar"></aside>
+ 
+        <main class="main">
+ 
+            <!-- ══════════════════════════════════
+                 PASO 1: Selección de mesa
+            ══════════════════════════════════ -->
+            <div id="step-tables">
+                <div class="main-header">
+                    <div>
+                        <h1>Punto de Venta</h1>
+                        <div class="main-header-sub">Selecciona una mesa para comenzar el pedido</div>
+                    </div>
+                </div>
+ 
+                <div class="tables-wrapper">
+                    <div class="tables-grid" id="tables-grid">
+                        <div class="empty-state">Cargando mesas…</div>
+                    </div>
+                </div>
+            </div>
+ 
+            <!-- ══════════════════════════════════
+                 PASO 2: Armar pedido
+            ══════════════════════════════════ -->
+            <div id="step-pos" class="hidden">
+                <div class="main-header">
+                    <div style="display:flex; align-items:center; gap: var(--space-4);">
+                        <button class="btn btn-ghost btn-sm" id="btn-back-tables">← Mesas</button>
+                        <div>
+                            <h1 id="pos-title">Pedido — Mesa ?</h1>
+                            <div class="main-header-sub">Agrega productos al pedido</div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="pos-layout">
+                    <!-- Productos -->
+                    <section class="pos-products">
+                        <div class="pos-filters">
+                            <div class="pos-search">
+                                <input
+                                    class="form-input"
+                                    type="text"
+                                    id="product-search"
+                                    placeholder="🔍 Buscar producto por nombre o código…"
+                                >
+                            </div>
+                        </div>
+                        <div class="category-chips" id="category-chips"></div>
+                        <div class="products-grid" id="products-grid">
+                            <div class="empty-state" style="grid-column:1/-1">Cargando productos…</div>
+                        </div>
+                    </section>
+ 
+                    <!-- Carrito -->
+                    <aside class="pos-cart">
+                        <div class="pos-cart-header">
+                            <h3>Pedido actual</h3>
+                            <div class="pos-cart-header-sub">
+                                <span id="cart-count">0</span> producto(s) en el carrito
+                            </div>
+                        </div>
+ 
+                        <div class="pos-cart-items" id="cart-items">
+                            <div class="cart-empty">
+                                <div class="cart-empty-icon">🛒</div>
+                                <div>El carrito está vacío.</div>
+                            </div>
+                        </div>
+ 
+                        <div class="pos-cart-footer">
+                            <div class="totals-row">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">$ 0</span>
+                            </div>
+                            <div class="totals-row total">
+                                <span>Total</span>
+                                <span id="cart-total">$ 0</span>
+                            </div>
+                            <div class="pos-cart-actions">
+                                <button class="btn btn-ghost" id="btn-clear-cart">Vaciar</button>
+                                <button class="btn btn-accent btn-block" id="btn-save-order" disabled>
+                                    Guardar pedido
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </main>
+    </div>
+ 
+    <!-- Modal: notas del pedido al guardar -->
+    <div class="modal-overlay" id="save-order-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Guardar pedido</h3>
+                <button class="modal-close" onclick="closeModal('save-order-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-soft mb-4">El pedido quedará en estado <strong>pendiente</strong> en la pestaña <strong>Pedidos</strong>. Podrás cobrar desde allí.</p>
+                <div class="form-group">
+                    <label class="form-label" for="order-notes">Notas del pedido (opcional)</label>
+                    <textarea class="form-textarea" id="order-notes" placeholder="Ej. sin cebolla, extra salsa…"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('save-order-modal')">Cancelar</button>
+                <button class="btn btn-accent" id="btn-confirm-order">Guardar pedido</button>
+            </div>
+        </div>
+    </div>
+ 
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/sales.js"></script>
+</body>
+</html>

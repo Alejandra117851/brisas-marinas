@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos — Brisas Marinas</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/orders.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main">
+            <div class="main-header">
+                <div>
+                    <h1>Pedidos</h1>
+                    <div class="main-header-sub">Pedidos pendientes por mesa</div>
+                </div>
+                <button class="btn btn-ghost btn-sm" id="btn-refresh">↻ Actualizar</button>
+            </div>
+
+            <div id="orders-grid" class="orders-grid">
+                <div class="empty-state">Cargando pedidos…</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: cobrar pedido -->
+    <div class="modal-overlay" id="pay-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="pay-modal-title">Cobrar pedido</h3>
+                <button class="modal-close" onclick="closeModal('pay-modal')">×</button>
+            </div>
+            <form id="pay-form">
+                <div class="modal-body">
+                    <div class="checkout-summary">
+                        <div class="text-sm text-soft text-center">Total a cobrar</div>
+                        <div class="checkout-total" id="pay-total" data-total="0">$ 0</div>
+                    </div>
+
+                    <div id="pay-items-summary" class="order-items-summary"></div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="pay-method">Forma de pago</label>
+                            <select class="form-select" id="pay-method" required>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="nequi">Nequi</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="pay-received-group">
+                            <label class="form-label" for="pay-received">Monto recibido</label>
+                            <input class="form-input" type="number" step="100" min="0" id="pay-received" placeholder="0">
+                        </div>
+                    </div>
+
+                    <div id="pay-change" class="change-display hidden">Cambio: $ 0</div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="pay-customer">Nombre del cliente (opcional)</label>
+                        <input class="form-input" type="text" id="pay-customer" placeholder="Ej. Juan Pérez">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('pay-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-accent" id="btn-confirm-pay">Confirmar cobro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: editar pedido -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Editar pedido</h3>
+                <button class="modal-close" onclick="closeModal('edit-modal')">×</button>
+            </div>
+            <div class="modal-body">
+
+                <!-- Ítems actuales del pedido -->
+                <div class="edit-section">
+                    <div class="edit-section-title">Productos en el pedido</div>
+                    <div id="edit-current-items"></div>
+                    <div class="edit-total-row">
+                        <span>Total estimado</span>
+                        <strong id="edit-total">$ 0</strong>
+                    </div>
+                </div>
+
+                <!-- Buscador para agregar productos -->
+                <div class="edit-section">
+                    <div class="edit-section-title">Agregar productos</div>
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="edit-product-search"
+                        placeholder="🔍 Buscar producto…"
+                        autocomplete="off"
+                    >
+                    <div id="edit-product-results" class="product-chips-grid"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" onclick="closeModal('edit-modal')">Cancelar</button>
+                <button type="button" class="btn btn-accent" id="btn-confirm-edit">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: ver detalle del pedido -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="detail-title">Detalle del pedido</h3>
+                <button class="modal-close" onclick="closeModal('detail-modal')">×</button>
+            </div>
+            <div class="modal-body" id="detail-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('detail-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: comprobante de cobro -->
+    <div class="modal-overlay" id="receipt-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Comprobante de venta</h3>
+                <button class="modal-close" onclick="closeModal('receipt-modal')">×</button>
+            </div>
+            <div class="modal-body" id="receipt-content"></div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="window.print()">Imprimir</button>
+                <button class="btn btn-primary" onclick="closeModal('receipt-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/orders.js"></script>
+</body>
+</html>

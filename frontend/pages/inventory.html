@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario — Brisas Marinas</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body.readonly [data-admin-only] { display: none; }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main">
+            <div class="main-header">
+                <div>
+                    <h1>Inventario</h1>
+                    <div class="main-header-sub">Gestión de productos y existencias</div>
+                </div>
+                <div data-admin-only>
+                    <button class="btn btn-accent" id="btn-new-product">+ Nuevo producto</button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card mb-6">
+                <div class="form-row">
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="search-input">Buscar</label>
+                        <input class="form-input" type="text" id="search-input" placeholder="Nombre o código…">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="category-filter">Categoría</label>
+                        <select class="form-select" id="category-filter"></select>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="form-label" style="visibility: hidden;">.</label>
+                        <label class="flex items-center gap-2" style="padding: 0.65rem 0;">
+                            <input type="checkbox" id="low-stock-filter">
+                            <span class="text-sm">Solo con bajo stock</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-center">Mín.</th>
+                            <th>Estado</th>
+                            <th class="text-right" data-admin-only>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-tbody">
+                        <tr><td colspan="7"><div class="empty-state">Cargando…</div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: crear/editar producto -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title" id="product-modal-title">Nuevo producto</h3>
+                <button class="modal-close" onclick="closeModal('product-modal')">×</button>
+            </div>
+            <form id="product-form">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="form-code">Código</label>
+                            <input class="form-input" type="text" id="form-code" placeholder="PLT001">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-name">Nombre *</label>
+                            <input class="form-input" type="text" id="form-name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="form-description">Descripción</label>
+                        <textarea class="form-textarea" id="form-description"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="form-category">Categoría</label>
+                            <select class="form-select" id="form-category"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-unit">Unidad</label>
+                            <input class="form-input" type="text" id="form-unit" value="unidad">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="form-price">Precio de venta * (COP)</label>
+                            <input class="form-input" type="number" step="100" min="0" id="form-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-cost">Costo (COP)</label>
+                            <input class="form-input" type="number" step="100" min="0" id="form-cost" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" id="form-stock-group">
+                            <label class="form-label" for="form-stock">Stock inicial</label>
+                            <input class="form-input" type="number" min="0" id="form-stock" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-min-stock">Stock mínimo</label>
+                            <input class="form-input" type="number" min="0" id="form-min-stock" value="5">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('product-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: ajustar stock -->
+    <div class="modal-overlay" id="stock-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Ajustar stock</h3>
+                <button class="modal-close" onclick="closeModal('stock-modal')">×</button>
+            </div>
+            <form id="stock-form">
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <div class="text-sm text-soft">Producto</div>
+                        <div class="font-semibold text-lg" id="adjust-product-name"></div>
+                        <div class="text-sm text-muted mt-2">
+                            Stock actual: <strong id="adjust-current-stock">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="adjust-type">Tipo de movimiento</label>
+                        <select class="form-select" id="adjust-type">
+                            <option value="in">Entrada (sumar al stock)</option>
+                            <option value="out">Salida (restar del stock)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="adjust-amount">Cantidad</label>
+                        <input class="form-input" type="number" min="1" id="adjust-amount" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="adjust-reason">Motivo (opcional)</label>
+                        <input class="form-input" type="text" id="adjust-reason" placeholder="Ej. reposición, merma…">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal('stock-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Aplicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/inventory.js"></script>
+</body>
+</html>
