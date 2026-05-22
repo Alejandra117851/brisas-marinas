@@ -5,16 +5,22 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const isProduction = process.env.DB_HOST?.includes('render.com');
+
 const pool = new Pool({
-    host:     process.env.DB_HOST     || 'localhost',
-    port:     parseInt(process.env.DB_PORT || '5432', 10),
-    database: process.env.DB_NAME     || 'brisas_marinas',
-    user:     process.env.DB_USER     || 'postgres',
-    password: process.env.DB_PASSWORD || 'postgres',
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || '5432', 10),
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+
+    ssl: isProduction
+        ? { rejectUnauthorized: false }
+        : false,
+
     max: 20,
-    client_encoding: 'UTF8',                          // Máximo de conexiones simultáneas
-    idleTimeoutMillis: 30000,         // Cierra conexiones ociosas tras 30s
-    connectionTimeoutMillis: 5000,    // Falla si no se conecta en 5s
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
 });
 
 pool.on('connect', (client) => {
