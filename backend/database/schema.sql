@@ -1,11 +1,14 @@
 -- ============================================================================
 --  Brisas Marinas — Esquema de Base de Datos
---  Sistema de Gestión de Ventas, Inventario y Reportes
---  Motor: PostgreSQL 13+
 -- ============================================================================
 
--- Limpieza previa (orden inverso por FKs)
--- Limpieza previa (orden inverso por FKs)
+-- ----------------------------------------------------------------------------
+-- Limpieza completa
+-- ----------------------------------------------------------------------------
+
+DROP VIEW IF EXISTS v_low_stock_products CASCADE;
+DROP VIEW IF EXISTS v_daily_sales_summary CASCADE;
+
 DROP TABLE IF EXISTS sale_items CASCADE;
 DROP TABLE IF EXISTS sales CASCADE;
 
@@ -17,9 +20,11 @@ DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
-DROP TYPE IF EXISTS user_role;
-DROP TYPE IF EXISTS payment_method;
-DROP TYPE IF EXISTS sale_status;
+DROP FUNCTION IF EXISTS trg_update_timestamp CASCADE;
+
+DROP TYPE IF EXISTS user_role CASCADE;
+DROP TYPE IF EXISTS payment_method CASCADE;
+DROP TYPE IF EXISTS sale_status CASCADE;
 -- ----------------------------------------------------------------------------
 --  Tabla: users
 -- ----------------------------------------------------------------------------
