@@ -1,20 +1,10 @@
-/**
- * Configuración del pool de conexiones a PostgreSQL.
- * Usa el módulo `pg` con un pool reutilizable para todas las queries.
- */
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const isProduction = process.env.DB_HOST?.includes('render.com');
-
 const pool = new Pool({
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT || '5432', 10),
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    connectionString: process.env.DATABASE_URL,
 
-    ssl: isProduction
+    ssl: process.env.NODE_ENV === 'production'
         ? { rejectUnauthorized: false }
         : false,
 
@@ -23,29 +13,23 @@ const pool = new Pool({
     connectionTimeoutMillis: 10000,
 });
 
-pool.on('connect', (client) => {
-    client.query("SET client_encoding TO 'UTF8'");
-});
-
 pool.on('error', (err) => {
     console.error('[DB] Error inesperado en cliente ocioso:', err);
     process.exit(-1);
 });
 
-/**
- * Ejecuta una query SQL con parámetros.
- * @param {string} text  - Sentencia SQL con placeholders $1, $2, ...
- * @param {Array}  params - Parámetros para la query
- * @returns {Promise<pg.QueryResult>}
- */
 async function query(text, params) {
     const start = Date.now();
+
     try {
         const result = await pool.query(text, params);
+
         const duration = Date.now() - start;
-        if (process.env.NODE_ENV === 'development' && duration > 200) {
+
+        if (duration > 200) {
             console.log(`[DB] Query lenta (${duration}ms):`, text.substring(0, 100));
         }
+
         return result;
     } catch (err) {
         console.error('[DB] Error en query:', err.message);
@@ -54,24 +38,20 @@ async function query(text, params) {
     }
 }
 
-/**
- * Obtiene un cliente del pool para ejecutar transacciones.
- * IMPORTANTE: liberar siempre con client.release() en bloque finally.
- */
 async function getClient() {
     return await pool.connect();
 }
 
-/**
- * Helper para ejecutar varias queries en una transacción.
- * @param {Function} callback - async (client) => { ... }
- */
 async function withTransaction(callback) {
     const client = await pool.connect();
+
     try {
         await client.query('BEGIN');
+
         const result = await callback(client);
+
         await client.query('COMMIT');
+
         return result;
     } catch (err) {
         await client.query('ROLLBACK');
