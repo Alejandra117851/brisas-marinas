@@ -900,169 +900,57 @@ img { max-width: 100%; display: block; }
 }
 
 /* ==========================================================================
-   LOGIN RESPONSIVE FIX
+   LOGIN RESPONSIVE
    ========================================================================== */
 
-/* Contenedor principal login */
-.login-page {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
-    background:
-        radial-gradient(circle at top left, rgba(56,163,165,.35), transparent 35%),
-        linear-gradient(135deg, var(--color-deep), var(--color-primary));
-}
-
-/* Card login */
-.login-container {
-    width: 100%;
-    max-width: 1150px;
-    min-height: 680px;
-    background: rgba(255,255,255,0.96);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    box-shadow: var(--shadow-xl);
-}
-
-/* Lado izquierdo */
-.login-brand {
-    background:
-        radial-gradient(circle at bottom left, rgba(181,226,238,.25), transparent 30%),
-        linear-gradient(180deg, var(--color-deep), var(--color-secondary));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-10);
-    position: relative;
-}
-
-/* Logo */
-.login-brand img {
-    width: 100%;
-    max-width: 420px;
-    object-fit: contain;
-}
-
-/* Lado derecho */
-.login-form-side {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-10);
-    background: #f8f9fb;
-}
-
-/* Caja formulario */
-.login-card {
-    width: 100%;
-    max-width: 460px;
-}
-
-/* Inputs login */
-.login-card .form-input {
-    height: 58px;
-    font-size: 1rem;
-}
-
-/* Botón login */
-.login-card .btn {
-    height: 58px;
-    font-size: 1rem;
-}
-
-/* ==========================================================================
-   TABLET
-   ========================================================================== */
-@media (max-width: 900px) {
-
-    .login-container {
-        grid-template-columns: 1fr;
-        min-height: auto;
-    }
-
-    .login-brand {
-        padding: var(--space-8);
-    }
-
-    .login-brand img {
-        max-width: 300px;
-    }
-
-    .login-form-side {
-        padding: var(--space-8);
-    }
-}
-
-/* ==========================================================================
-   MOBILE
-   ========================================================================== */
 @media (max-width: 768px) {
 
-    .login-page {
-        padding: var(--space-3);
-    }
-
+    /* Contenedor principal del login */
     .login-container {
-        border-radius: 28px;
-        overflow: hidden;
-    }
-
-    /* IMPORTANTE: mostrar logo */
-    .login-brand {
         display: flex !important;
-        min-height: 240px;
-        padding: var(--space-6);
+        flex-direction: column !important;
+        min-height: 100vh;
     }
 
-    .login-brand img {
-        max-width: 240px;
+    /* Panel del logo */
+    .login-left {
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 2rem 1rem 1rem !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .login-form-side {
-        padding: var(--space-6);
+    /* Fondo/logo */
+    .login-left-content {
+        width: 100% !important;
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
     }
 
+    /* Imagen logo */
+    .login-left img,
+    .login-logo {
+        width: 220px !important;
+        max-width: 80% !important;
+        margin: 0 auto !important;
+        display: block;
+    }
+
+    /* Panel derecho formulario */
+    .login-right {
+        width: 100% !important;
+        padding: 1.5rem !important;
+        border-radius: 24px 24px 0 0 !important;
+        margin-top: -10px;
+    }
+
+    /* Tarjeta login */
     .login-card {
-        max-width: 100%;
-    }
-
-    .login-card h1 {
-        font-size: 2rem;
-        text-align: center;
-    }
-
-    .login-card p {
-        text-align: center;
-    }
-
-    .login-card .btn {
-        width: 100%;
-    }
-}
-
-/* ==========================================================================
-   MOBILE SMALL
-   ========================================================================== */
-@media (max-width: 480px) {
-
-    .login-brand {
-        min-height: 200px;
-        padding: var(--space-4);
-    }
-
-    .login-brand img {
-        max-width: 200px;
-    }
-
-    .login-form-side {
-        padding: var(--space-5);
-    }
-
-    .login-card h1 {
-        font-size: 1.8rem;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 2rem 1.5rem !important;
     }
 }
