@@ -267,7 +267,7 @@ function openPayModal(btn) {
     currentOrderId = parseInt(btn.dataset.id, 10);
     const total    = Number(btn.dataset.total);
     const label    = btn.dataset.label;
-    const number   = btn.dataset.number;
+    const number   = btn.dataset.label;
 
     document.getElementById('pay-modal-title').textContent = `Cobrar — ${label} (${number})`;
     document.getElementById('pay-total').textContent       = formatCurrency(total);
