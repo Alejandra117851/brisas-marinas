@@ -41,6 +41,10 @@ INSERT INTO products (code, name, description, category_id, price, cost, stock, 
 INSERT INTO tables (label, capacity) VALUES
 ('Mesa 1', 4),
 ('Mesa 2', 4),
-('Mesa 3', 6),
-('Mesa 4', 2)
+('Mesa 3', 4),
+('Mesa 4', 4),
+('Mesa 5', 4),
+('Mesa 6', 4),
+('Mesa 7', 4),
+('Mesa 8', 4);
 ON CONFLICT DO NOTHING;
