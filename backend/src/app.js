@@ -1,7 +1,4 @@
-/**
- * app.js
- * Configuración principal de la aplicación Express.
- */
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -13,6 +10,7 @@ const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
+app.set('trust proxy', 1);
 // ----------------------------------------------------------------------------
 // Configuración de seguridad y utilidades
 // ----------------------------------------------------------------------------
