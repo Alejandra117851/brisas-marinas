@@ -6,7 +6,7 @@
 // Por defecto usa ruta relativa (/api) — funciona cuando el backend sirve el
 // frontend. Para servir el frontend por separado, define window.API_BASE_URL
 // (p. ej. en un <script>) antes de cargar api.js.
-const API_BASE_URL = window.API_BASE_URL || '/api';
+const API_BASE_URL = 'https://brisas-marinas-backend.onrender.com/api';
 
 const TOKEN_KEY = 'bm_token';
 const USER_KEY  = 'bm_user';
