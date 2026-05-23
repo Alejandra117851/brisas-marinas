@@ -40,9 +40,9 @@ const users = [
         role:      'cajero',
     },
     {
-        username:  'empleado1',
+        username:  'Luzmeri07',
         password:  ADMIN_PASSWORD,
-        full_name: 'Pedro Empleado',
+        full_name: 'Luzmeri Perez',
         email:     null,
         role:      'empleado',
     },
