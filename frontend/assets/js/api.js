@@ -39,6 +39,7 @@ const api = {
         const url = `${API_BASE_URL}${path}`;
         const headers = {
             'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
             ...(options.headers || {}),
         };
 

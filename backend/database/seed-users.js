@@ -33,9 +33,9 @@ const users = [
         role:      'administrador',
     },
     {
-        username:  'cajero1',
+        username:  'shairajulio25',
         password:  ADMIN_PASSWORD,
-        full_name: 'María José Cajero',
+        full_name: 'Shaira Julio',
         email:     null,
         role:      'cajero',
     },

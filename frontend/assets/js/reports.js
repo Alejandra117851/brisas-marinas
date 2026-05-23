@@ -120,7 +120,7 @@ function renderSalesChart(items) {
     destroyChart('sales');
 
     const labels = items.map(i => {
-        const d = new Date(i.date);
+        const d = new Date(i.date + 'T00:00:00');
         return d.toLocaleDateString('es-CO', { day: '2-digit', month: 'short' });
     });
     const data = items.map(i => Number(i.total_revenue));
