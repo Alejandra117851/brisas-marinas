@@ -27,23 +27,21 @@ function cleanEmail(value) {
 const users = [
     {
         username:  process.env.ADMIN_USERNAME  || 'admin',
-        password:  ADMIN_PASSWORD,
+        password:  'admin123',
         full_name: process.env.ADMIN_FULL_NAME || 'Baldura María Petro Pérez',
         email:     cleanEmail(process.env.ADMIN_EMAIL),
         role:      'administrador',
     },
     {
         username:  'shairajulio25',
-        password:  ADMIN_PASSWORD,
+        password:  'shaira25',
         full_name: 'Shaira Julio',
-        email:     null,
         role:      'cajero',
     },
     {
-        username:  'Luzmeri07',
-        password:  ADMIN_PASSWORD,
+        username:  'luzmeri07',
+        password:  'luzmeri07',
         full_name: 'Luzmeri Perez',
-        email:     null,
         role:      'empleado',
     },
 ];
