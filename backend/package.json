@@ -4,7 +4,7 @@
   "description": "Backend de la plataforma web del Restaurante Brisas Marinas - Sistema de gestión de ventas, inventario y reportes",
   "main": "server.js",
   "scripts": {
-     "start": "npm run db:reset && node server.js",
+     "start": "node server.js",
   "dev": "nodemon server.js",
   "db:create": "node database/init-db.js",
 "db:schema": "node database/run-sql.js schema.sql",
